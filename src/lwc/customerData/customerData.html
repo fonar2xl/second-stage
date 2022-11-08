@@ -1,0 +1,78 @@
+<!--
+ - Created by alexey on 31/10/2022.
+ -->
+
+<!-- Customer Data -->
+<template>
+    <lightning-card title="Account information for closed Opportunities">
+        <div class=slds-box>
+        <template if:true={isDetailPage}>
+            <p class="slds-p-horizontal_small" >
+                <lightning-input  type="search" class="slds-m-bottom_small" label="Search" onchange={handleKeyChange} value={searchValue}></lightning-input>
+            </p>
+        </template>
+        <lightning-accordion id="accordion" allow-multiple-sections-open>
+            <template for:each={items} for:item="item">
+                <lightning-accordion-section id="accordion-section" data-account-id={item.accountId} label={item.label} key={item.accountId}>
+                    <div class=slds-box>
+                        <lightning-datatable
+                                key-field="Id"
+                                data={item.opportunities}
+                                columns={columns}
+                                onrowaction={getRowActions}
+                        >
+                        </lightning-datatable>
+                    </div>
+                </lightning-accordion-section>
+            </template>
+        </lightning-accordion>
+        <lightning-layout horizontal-align="space" if:true={isDetailPage}>
+            <lightning-layout-item flexibility="auto">
+                <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={previousPage} disabled={previousDisabled}>
+                </lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto">
+                Page {page} of {numberOfPages}
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto">
+                <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
+                                  onclick={nextPage} disabled={nextDisabled}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        </div>
+    </lightning-card>
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Details</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class=slds-box if:true={iterationProduct}>
+                        <template for:each={opportunityProduct} for:item="item">
+                            <ul class="slds-has-dividers_around-space" key={item.Id}>
+                                <li class="slds-item">{item.Product2.Name}</li>
+                            </ul>
+                        </template>
+                    </div>
+                    <div if:false={noProducts}>
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_info" role="status" style="justify-content: center">
+                                <div class="slds-notify__content" >
+                                    <h2 class="slds-text-heading_small ">No Opportunity Products</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={closeModal}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

@@ -1,0 +1,65 @@
+<template>
+    <div if:false={spinner}>
+        <div class="demo-only" style="height:30rem;position:relative">
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div if:true={success}>
+        <div class=slds-box>
+            <lightning-card title="Contact Information">
+                <div class=slds-box>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-47">Name</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="text-input-id-49" readonly="" placeholder="" class="slds-input"
+                                   value={opportunityRoles.Name}/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-47">Email</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="text-input-id-50" readonly="" placeholder="" class="slds-input"
+                                   value={opportunityRoles.Email}/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-47">Email Template Subject</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="text-input-id-47" readonly="" placeholder="" class="slds-input"
+                                   value={emailSubject}/>
+                        </div>
+                    </div>
+                </div>
+            </lightning-card>
+            <lightning-card title="Email message">
+                <lightning-input-rich-text
+                        value={emailTemplateBody}
+                        onchange={handleChange}>
+                </lightning-input-rich-text>
+            </lightning-card>
+            <lightning-card title="PDF File Preview">
+                <div class="slds-box">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_left file-name-and-invoice-number">
+                            <p><strong>FileName - </strong>{invoiceNumber}</p>
+                        </div>
+                        <div class="slds-float_right">
+                            <lightning-button label="Preview" variant="brand" onclick={previewHandler}></lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </lightning-card>
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning-button label='Send' variant="success" onclick={closeQuickAction}></lightning-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

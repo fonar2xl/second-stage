@@ -1,0 +1,240 @@
+<apex:page standardController="Opportunity"
+           renderAs="pdf"
+           showHeader="false"
+           standardStylesheets="false"
+           applyHtmlTag="false"
+           applyBodyTag="false">
+    <html>
+    <head>
+        <style>
+            @page {
+                size: A4;
+                padding-top: 250px;
+                @top-center {
+                    padding-top: 25px;
+                    content: element(header);
+                }
+                @bottom-center {
+                    content: element(footer);
+                }
+            }
+
+            @page first {
+
+            }
+
+            .footer {
+                position: running(footer);
+                background-color: #ff5722;
+                color: #ffffff;
+                text-align: center;
+                display: block;
+            }
+
+            .header {
+                position: running(header);
+                border-top: 20px solid #ff5722;
+                background-color: #f3f3f3;
+                height: 175px;
+            }
+
+            .invoice-data {
+                float: right;
+                margin-right: 30px;
+                margin-top: 25px;
+            }
+
+            .invoice-text {
+                color: #7f7f7f;
+                font-size: 25px;
+            }
+
+            .invoice-date {
+                color: #3f547a;
+                font-size: small;
+                border-bottom: 1px solid #c7c7c7;
+                text-align: center;
+            }
+
+            .invoice-number {
+                color: #3f547a;
+                font-size: small;
+                border-bottom: 1px solid #c7c7c7;
+                text-align: center;
+            }
+
+            .invoice-date-and-number {
+                margin-top: 20px;
+                margin-left: 5px;
+            }
+
+            .logo {
+                float: left;
+                margin-left: 20px;
+            }
+
+            .info-company {
+                text-align: left;
+                float: left;
+                padding-left: 25px;
+            }
+
+            .logo-and-info-company {
+                padding-top: 30px;
+            }
+
+            .bill-to {
+                color: #3f547a;
+                font-size: small;
+                border-bottom: 1px solid #c7c7c7
+            }
+
+            body {
+                color: #34495E;
+            }
+
+            table {
+                width: 100%;
+                padding-top: 11px;
+            }
+
+            thead {
+                background: #ff5722;
+                color: white;
+                padding: 5px;
+                text-align: center;
+            }
+
+            th, td {
+                padding: 3px;
+            }
+
+            td {
+                border-left: 1px solid #b0b0b0;
+                border-right: 1px solid #b0b0b0;
+            }
+
+            .opp-name {
+                text-align: left;
+            }
+
+            .opp-quantity {
+                text-align: center;
+            }
+
+            .opp-unit-price {
+                text-align: right;
+            }
+
+            .opp-total-price {
+                text-align: right;
+            }
+
+            .balance-due {
+                border: none;
+                color: #3f547a;
+                padding: 5px 0;
+                text-align: right;
+                font-weight: bold;
+            }
+
+            .opp-amount {
+                background-color: #f4cccc;
+                color: black;
+                border: black;
+                padding: 5px 0;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .footer-table {
+                padding: 10px;
+                border: none;
+                border-top: 1px solid #b0b0b0;
+            }
+
+            .gray {
+                background-color: #f3f3f3;
+            }
+
+            .white {
+                background-color: #fff;
+            }
+
+            .opp-total-price.footer {
+                background-color: #ff5722;
+            }
+        </style>
+    </head>
+    <!---------------------------------------------------------------------------------------------------------------------->
+    <body>
+    <div class="footer" name="footer">
+        {!$Organization.Name}
+    </div>
+    <div class="header">
+        <div class="logo-and-info-company">
+            <div class="logo">
+                <apex:image url="{!$Resource.logo}" width="75" height="75"/>
+            </div>
+            <div class="info-company">
+                <apex:form >
+                    <apex:pageBlock >
+                        {!$Organization.Name} <br/>
+                        <span style="font-size: 12px;">{!$Organization.City},
+                            {!$Organization.Street}</span> <br/>
+                        <span style="font-size: 12px">{!Opportunity.Owner.Name}</span> <br/>
+                    </apex:pageBlock>
+                </apex:form>
+            </div>
+        </div>
+        <div class="invoice-data">
+            <span class="invoice-text">INVOICE</span><br/>
+            <div class="invoice-date-and-number">
+                <h1 class="invoice-date">{!MONTH(TODAY())}/{!DAY(TODAY())}/{!YEAR(TODAY())}</h1> <br/>
+                <h1 class="invoice-number">{!Opportunity.Invoice_Number__c}</h1><br/>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div>
+                <h1 class="bill-to">BILL TO</h1>
+            </div>
+            <div class="contact-role-info">
+                <apex:form >
+                    <apex:repeat value="{!Opportunity.OpportunityContactRoles}" var="opp">
+                        {!opp.Contact.Name} <br/>
+                        {!Opportunity.Name} <br/>
+                        {!opp.Contact.Phone} <br/>
+                        {!opp.Contact.Email} <br/>
+                    </apex:repeat>
+                </apex:form>
+            </div>
+        </div>
+        <div>
+            <apex:dataTable footerClass="footer-table" value="{!Opportunity.OpportunityLineItems}" var="op"
+                            rowClasses="gray, white">
+                <apex:column styleClass="opp-name">
+                    <apex:facet name="header">PRODUCT NAME</apex:facet>
+                    <apex:outputText value="{!op.Product2.Name}"/>
+                    <apex:facet name="footer"></apex:facet>
+                </apex:column>
+                <apex:column styleClass="opp-quantity">
+                    <apex:facet name="header">QTY</apex:facet>
+                    <apex:outputText value="{!op.Quantity}"/>
+                    <apex:facet name="footer"></apex:facet>
+                </apex:column>
+                <apex:column styleClass="opp-unit-price" footerValue="Balance Due" footerClass="balance-due">
+                    <apex:facet name="header">UNIT PRICE</apex:facet>
+                    <apex:outputText value="{!op.UnitPrice}"/>
+                </apex:column>
+                <apex:column styleClass="opp-total-price" footerValue="${!Opportunity.Amount}" footerClass="opp-amount">
+                    <apex:facet name="header">TOTAL</apex:facet>
+                    <apex:outputText value="{!op.TotalPrice}"/>
+                </apex:column>
+            </apex:dataTable>
+        </div>
+    </div>
+    </body>
+    </html>
+</apex:page>

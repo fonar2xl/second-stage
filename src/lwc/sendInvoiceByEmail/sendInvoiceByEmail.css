@@ -1,0 +1,16 @@
+/**
+ * Created by alexey on 26/10/2022.
+ */
+.slds-input {
+    background-color: #f3f3f3;
+    padding-left: 5px;
+}
+.slds-form-element__label {
+    padding-bottom: 5px;
+}
+.slds-form-element {
+    padding-bottom: 15px;
+}
+.file-name-and-invoice-number {
+    padding-top: 5px;
+}
