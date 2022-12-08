@@ -35,7 +35,7 @@ public with sharing class SendInvoiceByEmailController {
                 FROM Contact
                 WHERE Id = :contactId
         ];
-        System.debug('ID = ' + contentDocId);
+        System.debug(emailTemplateBody);
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         List<ContentVersion> contVers = [
                 SELECT Id, Title

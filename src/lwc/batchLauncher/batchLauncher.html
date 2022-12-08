@@ -1,0 +1,56 @@
+<!--
+ - Created by alexey on 28/11/2022.
+ -->
+
+<!-- Batch Launcher -->
+<template>
+    <div class="container">
+        <lightning-card class="lightning-card">
+            <div class="all-div" if:true={component}>
+                <div class=slds-box>
+                    <div class="title">Title</div>
+                    <div class="about-scheduler">
+                        <div style="padding: 10px">
+                            <div class="schedule">Schedule batch</div>
+                            <div class="description">Description text</div>
+                            <div class="input">
+                                <lightning-input type="text" label="CRON String" placeholder="type here..." required
+                                                 value="0 0 0 * * ?"
+                                                 field-level-help="1. Seconds 2. Minutes 3. Hours 4. Day_of_month 5. Month 6. Day_of_week 7. Optional_year"
+                                                 class="input-text" disabled={inputDisabled} onchange={buttonOnAndOff}>
+                                </lightning-input>
+                                <lightning-formatted-url
+                                        value="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm"
+                                        label="Read more about scheduling"
+                                        target="_blank"
+                                ></lightning-formatted-url>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid #b0b0b0;"></div>
+                        <div class="button">
+                            <div if:true={buttonRunOnce}>
+                                <lightning-button variant="brand" label="Run Once" title="Primary action"
+                                                  onclick={handleClickRunOnce}
+                                                  class="slds-m-left_x-small"></lightning-button>
+                            </div>
+                            <div if:true={buttonScheduleBatch}>
+                                <lightning-button variant="brand" label="Schedule batch" title="Primary action"
+                                                  onclick={handleClickScheduleBatch}
+                                                  class="slds-m-left_x-small"
+                                                  disabled={buttonDisabled}></lightning-button>
+                            </div>
+                            <div if:true={buttonAbortBatch}>
+                                <lightning-button variant="destructive" label="Abort Batch" title="Destructive action"
+                                                  onclick={handleClickAbortBatch}
+                                                  class="slds-m-left_x-small"></lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="exampleHolder" if:true={spinner}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </lightning-card>
+    </div>
+</template>

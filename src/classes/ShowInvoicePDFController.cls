@@ -20,11 +20,7 @@ public with sharing class ShowInvoicePDFController {
 
         PageReference pdfPage = Page.Invoice_PDF;
         pdfPage.getParameters().put('id', recId);
-        if (Test.isRunningTest()) {
-            pdfBlob = Blob.valueOf('TEST');
-        } else {
-            pdfBlob = pdfPage.getContent();
-        }
+        pdfBlob = Test.isRunningTest() ? Blob.valueOf('TEST'): pdfPage.getContent();
 
         List<ContentDocument> contentDocuments = [
                 SELECT Id

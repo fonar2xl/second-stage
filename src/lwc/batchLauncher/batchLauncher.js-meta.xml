@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <description>Batch Launcher</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Batch Launcher</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__Tab</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property name="nameBatch" type="String"/>
+            <property name="nameScheduler" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
