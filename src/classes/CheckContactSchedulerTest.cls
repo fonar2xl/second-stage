@@ -9,10 +9,10 @@ public with sharing class CheckContactSchedulerTest {
         List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 3; i++) {
             Contact newCont = new Contact(
-                    FirstName = 'Alexey',
-                    LastName = 'Kamenev',
-                    Birthdate = Date.today(),
-                    Email = 'test@gmail.com'
+                    FirstName   = 'Alexey',
+                    LastName    = 'Kamenev',
+                    Birthdate   = Date.today(),
+                    Email       = 'test@gmail.com'
             );
             contacts.add(newCont);
         }
