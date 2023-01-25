@@ -12,6 +12,7 @@ public class CheckContactsBatch implements Database.Batchable<SObject> {
                 FROM EmailTemplate
                 WHERE Name = 'Happy Birthday'
         ];
+
         List<OrgWideEmailAddress> orgWibEmailAddress = [SELECT Id FROM OrgWideEmailAddress];
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         for (Contact contact: scope) {
