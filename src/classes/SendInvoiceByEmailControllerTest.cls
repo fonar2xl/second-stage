@@ -11,10 +11,13 @@ public with sharing class SendInvoiceByEmailControllerTest {
                 FROM EmailTemplate
                 WHERE Name = 'Custom Email Template'
         ];
-        System.debug(emailTemplate);
         Test.startTest();
-        SendInvoiceByEmailController.oppRolesAndEmailTemplate(opportunity.Id);
+        Map<String, Object> result = SendInvoiceByEmailController.oppRolesAndEmailTemplate(opportunity.Id);
         Test.stopTest();
+        System.debug(result);
+        System.assertEquals('Write a letter to a client...', ((EmailTemplate)result.get('EmailTemplate')).Body);
+        System.assertEquals('INV-100069', ((Opportunity)result.get('OpportunityRoles')).Invoice_Number__c);
+
     }
 
     @IsTest
@@ -44,7 +47,9 @@ public with sharing class SendInvoiceByEmailControllerTest {
         Id contactId = opportunity.OpportunityContactRoles[0].ContactId;
         Test.startTest();
         SendInvoiceByEmailController.sendEmailTemplate(str, contactId, conDocument);
+        System.assertEquals(1, Limits.getEmailInvocations());
         Test.stopTest();
+
     }
 
     private static Opportunity createContactAndOpp() {

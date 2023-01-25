@@ -22,5 +22,7 @@ public with sharing class CheckContactSchedulerTest {
                 CRON_EXP,
                 new CheckContactsScheduler());
         Test.stopTest();
+        List<CronTrigger> sch = [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name = 'ScheduledApexTest'];
+        System.assert(!sch.isEmpty());
     }
 }

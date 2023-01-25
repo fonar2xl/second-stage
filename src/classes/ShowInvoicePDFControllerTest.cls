@@ -17,7 +17,11 @@ public with sharing class ShowInvoicePDFControllerTest {
         ShowInvoicePDFController showInvoicePDFController = new ShowInvoicePDFController(sc);
         showInvoicePDFController.attachPDF();
         Test.stopTest();
+        List<ContentVersion> c = [SELECT Id, Title FROM ContentVersion];
+        System.assert(!c.isEmpty());
+        System.assertEquals('INV-100069', c[0].Title);
     }
+
     @IsTest
     static void attachPDFTestSecond() {
         Opportunity newOpp = new Opportunity(
@@ -50,11 +54,13 @@ public with sharing class ShowInvoicePDFControllerTest {
         insert cDocLink;
 
 
-//        Opportunity opp = [SELECT Id, Invoice_Number__c FROM Opportunity];
         ApexPages.StandardController sc = new ApexPages.StandardController(opp);
         Test.startTest();
         ShowInvoicePDFController showInvoicePDFController = new ShowInvoicePDFController(sc);
         showInvoicePDFController.attachPDF();
         Test.stopTest();
+        List<ContentDocumentLink> cdl = [SELECT Id, Visibility FROM ContentDocumentLink WHERE ContentDocumentId =: conDocument];
+        System.assert(!cdl.isEmpty());
+        System.assertEquals('AllUsers', cdl[0].Visibility);
     }
 }
